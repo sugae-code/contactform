@@ -1,0 +1,23 @@
+name: PHP security regression tests
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  php-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax
+        run: |
+          php -v
+          php -l form_helpers.php
+          php -l mail_confirm.php
+          php -l insert.php
+          php -l tests/form_helpers_test.php
+      - name: Run validation and XSS regression tests
+        run: php tests/form_helpers_test.php
